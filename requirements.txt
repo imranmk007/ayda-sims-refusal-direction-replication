@@ -1,0 +1,12 @@
+torch
+einops
+requests
+pandas
+scikit-learn
+tqdm
+transformer-lens
+transformers
+jaxtyping
+colorama
+datasets
+huggingface-hub
