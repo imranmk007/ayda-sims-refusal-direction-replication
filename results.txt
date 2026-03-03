@@ -1,1 +1,17 @@
-(Results will appear here after running main.py)
+Testing candidates...
+  pos=0, layer=0: score=5.8301
+  pos=0, layer=5: score=5.2199
+  pos=0, layer=10: score=5.0289
+  pos=0, layer=15: score=4.2749
+  pos=2, layer=0: score=5.8301
+  pos=2, layer=5: score=4.8719
+  pos=2, layer=10: score=4.5990
+  pos=2, layer=15: score=4.9885
+  pos=4, layer=0: score=5.8301
+  pos=4, layer=5: score=6.2073
+  pos=4, layer=10: score=-13.8001
+  pos=4, layer=15: score=-9.0194
+
+Selected direction: pos=-1, layer=10
+  Baseline refusal score: 5.8301
+  Ablation refusal score: -13.8001
