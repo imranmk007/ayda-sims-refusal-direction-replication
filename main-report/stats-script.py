@@ -1,27 +1,13 @@
-"""
-Generate all figures for the cross-modal refusal report from step7_summary_statistics.json.
-
-Outputs (saved to figures/):
-  1. refusal_rates.pdf        — Bar chart of refusal rates
-  2. layer_dot_products.pdf    — Mean dot product per layer with std error bars
-  3. layer_dot_heatmap.pdf     — Single-row heatmap of mean dot products
-  4. kl_summary.pdf            — Horizontal bar summary of KL divergence stats
-  5. experiment_pipeline.pdf   — Schematic of the 7-step pipeline
-  6. layer_dot_range.pdf       — Min/mean/max range per layer
-"""
-
 import json
 import os
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 
-# ── Config ──────────────────────────────────────────────────────────────────
 JSON_PATH = os.path.join("..", "main-experiment", "step7_summary_statistics.json")
 OUT_DIR = os.path.join("..", "figures")
 os.makedirs(OUT_DIR, exist_ok=True)
 
-# Consistent neutral style
 plt.rcParams.update({
     "font.family": "serif",
     "font.size": 9,
@@ -41,7 +27,6 @@ plt.rcParams.update({
 with open(JSON_PATH, "r") as f:
     data = json.load(f)
 
-# Neutral grayscale palette
 BLACK = "#1a1a1a"
 DARK = "#4a4a4a"
 MID = "#7a7a7a"
@@ -50,9 +35,6 @@ VLIGHT = "#d0d0d0"
 FILL = "#e8e8e8"
 
 
-# ═══════════════════════════════════════════════════════════════════════════
-# Figure 1 — Refusal Rates
-# ═══════════════════════════════════════════════════════════════════════════
 def fig_refusal_rates():
     rr = data["refusal_rates"]
     sc = data["sample_counts"]
@@ -83,7 +65,6 @@ def fig_refusal_rates():
             ha="center", va="bottom", fontsize=7.5,
         )
 
-    # Jailbreak delta bracket
     x1, x2 = 1, 2
     y1, y2 = rr["suu_baseline_refusal_rate"], rr["suu_ablated_refusal_rate"]
     bracket_x = 3.45
@@ -105,12 +86,8 @@ def fig_refusal_rates():
 
     fig.savefig(os.path.join(OUT_DIR, "refusal_rates.pdf"))
     plt.close(fig)
-    print("  Saved refusal_rates.pdf")
 
 
-# ═══════════════════════════════════════════════════════════════════════════
-# Figure 2 — Layer-wise Dot Products
-# ═══════════════════════════════════════════════════════════════════════════
 def fig_layer_dot_products():
     la = data["layer_analysis"]
     layers = sorted(la.keys(), key=int)
@@ -136,12 +113,8 @@ def fig_layer_dot_products():
 
     fig.savefig(os.path.join(OUT_DIR, "layer_dot_products.pdf"))
     plt.close(fig)
-    print("  Saved layer_dot_products.pdf")
 
 
-# ═══════════════════════════════════════════════════════════════════════════
-# Figure 3 — Heatmap
-# ═══════════════════════════════════════════════════════════════════════════
 def fig_layer_heatmap():
     la = data["layer_analysis"]
     layers = sorted(la.keys(), key=int)
@@ -160,12 +133,8 @@ def fig_layer_heatmap():
 
     fig.savefig(os.path.join(OUT_DIR, "layer_dot_heatmap.pdf"))
     plt.close(fig)
-    print("  Saved layer_dot_heatmap.pdf")
 
 
-# ═══════════════════════════════════════════════════════════════════════════
-# Figure 4 — KL Divergence Summary
-# ═══════════════════════════════════════════════════════════════════════════
 def fig_kl_summary():
     kl = data["kl_divergence"]
 
@@ -193,12 +162,8 @@ def fig_kl_summary():
 
     fig.savefig(os.path.join(OUT_DIR, "kl_summary.pdf"))
     plt.close(fig)
-    print("  Saved kl_summary.pdf")
 
 
-# ═══════════════════════════════════════════════════════════════════════════
-# Figure 5 — Pipeline Schematic
-# ═══════════════════════════════════════════════════════════════════════════
 def fig_pipeline():
     fig, ax = plt.subplots(figsize=(7, 5))
     ax.set_xlim(0, 10)
@@ -206,9 +171,7 @@ def fig_pipeline():
     ax.axis("off")
     ax.set_title("Experimental Pipeline", fontsize=11, fontweight="bold", pad=12)
 
-    # Two columns: left (data collection), right (analysis)
     steps = [
-        # (x, y, label, width, height)
         (0.5, 7.2, "Step 1: USU Inference (950 samples)", 4.0, 0.7),
         (0.5, 6.0, "Step 2a: SSS Inference (150 samples)", 4.0, 0.7),
         (5.3, 6.6, "Step 2b: Compute Refusal Vector", 4.2, 0.7),
@@ -231,37 +194,24 @@ def fig_pipeline():
         ax.text(x + w / 2, y + h / 2, label, ha="center", va="center",
                 fontsize=7.5, color=BLACK)
 
-    # Arrows (simple straight lines)
     arrow_kw = dict(arrowstyle="-|>", color=DARK, lw=0.9)
 
     def arrow(x1, y1, x2, y2):
         ax.annotate("", xy=(x2, y2), xytext=(x1, y1), arrowprops=arrow_kw)
 
-    # Step 1 -> 2b
     arrow(4.5, 7.55, 5.3, 7.1)
-    # Step 2a -> 2b
     arrow(4.5, 6.35, 5.3, 6.8)
-    # Step 2b -> 2c
     arrow(5.3, 6.6, 4.5, 5.35)
-    # Step 2b -> Step 5
     arrow(7.4, 6.6, 7.4, 4.3)
-    # Step 3 -> Step 4
     arrow(4.5, 3.95, 5.3, 5.15)
-    # Step 4 -> Step 5
     arrow(7.4, 4.8, 7.4, 4.3)
-    # Step 5 -> 6-7
     arrow(7.1, 3.6, 5.8, 2.8)
-    # Step 2c -> 6-7
     arrow(2.5, 4.8, 4.0, 2.8)
 
     fig.savefig(os.path.join(OUT_DIR, "experiment_pipeline.pdf"))
     plt.close(fig)
-    print("  Saved experiment_pipeline.pdf")
 
 
-# ═══════════════════════════════════════════════════════════════════════════
-# Figure 6 — Layer-wise dot product range
-# ═══════════════════════════════════════════════════════════════════════════
 def fig_layer_range():
     la = data["layer_analysis"]
     layers = sorted(la.keys(), key=int)
@@ -290,18 +240,12 @@ def fig_layer_range():
 
     fig.savefig(os.path.join(OUT_DIR, "layer_dot_range.pdf"))
     plt.close(fig)
-    print("  Saved layer_dot_range.pdf")
 
 
-# ═══════════════════════════════════════════════════════════════════════════
-# Run all
-# ═══════════════════════════════════════════════════════════════════════════
 if __name__ == "__main__":
-    print("Generating figures from", JSON_PATH)
     fig_refusal_rates()
     fig_layer_dot_products()
     fig_layer_heatmap()
     fig_kl_summary()
     fig_pipeline()
     fig_layer_range()
-    print(f"\nDone. All figures saved to {OUT_DIR}/")
