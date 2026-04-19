@@ -8,21 +8,23 @@ JSON_PATH = os.path.join("..", "main-experiment", "step7_summary_statistics.json
 OUT_DIR = os.path.join("..", "figures")
 os.makedirs(OUT_DIR, exist_ok=True)
 
-plt.rcParams.update({
-    "font.family": "serif",
-    "font.size": 9,
-    "axes.titlesize": 10,
-    "axes.titleweight": "bold",
-    "axes.labelsize": 9,
-    "xtick.labelsize": 8,
-    "ytick.labelsize": 8,
-    "legend.fontsize": 8,
-    "figure.dpi": 300,
-    "savefig.bbox": "tight",
-    "savefig.pad_inches": 0.1,
-    "axes.spines.top": False,
-    "axes.spines.right": False,
-})
+plt.rcParams.update(
+    {
+        "font.family": "serif",
+        "font.size": 9,
+        "axes.titlesize": 10,
+        "axes.titleweight": "bold",
+        "axes.labelsize": 9,
+        "xtick.labelsize": 8,
+        "ytick.labelsize": 8,
+        "legend.fontsize": 8,
+        "figure.dpi": 300,
+        "savefig.bbox": "tight",
+        "savefig.pad_inches": 0.1,
+        "axes.spines.top": False,
+        "axes.spines.right": False,
+    }
+)
 
 with open(JSON_PATH, "r") as f:
     data = json.load(f)
@@ -55,14 +57,19 @@ def fig_refusal_rates():
     colors = [VLIGHT, DARK, MID, LIGHT]
 
     fig, ax = plt.subplots(figsize=(5.5, 3.5))
-    bars = ax.bar(labels, values, color=colors, edgecolor=BLACK, linewidth=0.5, width=0.55)
+    bars = ax.bar(
+        labels, values, color=colors, edgecolor=BLACK, linewidth=0.5, width=0.55
+    )
 
     for bar, count, val in zip(bars, counts, values):
         y_pos = max(bar.get_height() + 0.03, 0.05)
         ax.text(
-            bar.get_x() + bar.get_width() / 2, y_pos,
+            bar.get_x() + bar.get_width() / 2,
+            y_pos,
             f"{val:.1%}  ({count})",
-            ha="center", va="bottom", fontsize=7.5,
+            ha="center",
+            va="bottom",
+            fontsize=7.5,
         )
 
     x1, x2 = 1, 2
@@ -71,12 +78,20 @@ def fig_refusal_rates():
     ax.plot([x1 + 0.3, bracket_x], [y1, y1], color=BLACK, lw=0.6, ls=":")
     ax.plot([x2 + 0.3, bracket_x], [y2, y2], color=BLACK, lw=0.6, ls=":")
     ax.annotate(
-        "", xy=(bracket_x, y2), xytext=(bracket_x, y1),
+        "",
+        xy=(bracket_x, y2),
+        xytext=(bracket_x, y1),
         arrowprops=dict(arrowstyle="<->", color=BLACK, lw=0.8),
     )
     mid_y = (y1 + y2) / 2
-    ax.text(bracket_x + 0.08, mid_y, f"$\\Delta$ = {rr['jailbreak_success']:.0%}",
-            ha="left", va="center", fontsize=8)
+    ax.text(
+        bracket_x + 0.08,
+        mid_y,
+        f"$\\Delta$ = {rr['jailbreak_success']:.0%}",
+        ha="left",
+        va="center",
+        fontsize=8,
+    )
 
     ax.set_ylabel("Refusal Rate")
     ax.set_title("Refusal Rates Across Conditions")
@@ -101,8 +116,14 @@ def fig_layer_dot_products():
     colors = [BLACK if int(l) == peak["layer"] else MID for l in layers]
     ax.bar(layer_ints, means, color=colors, edgecolor=BLACK, linewidth=0.3, width=0.7)
     ax.errorbar(
-        layer_ints, means, yerr=stds,
-        fmt="none", ecolor=DARK, capsize=2.5, capthick=0.6, linewidth=0.6,
+        layer_ints,
+        means,
+        yerr=stds,
+        fmt="none",
+        ecolor=DARK,
+        capsize=2.5,
+        capthick=0.6,
+        linewidth=0.6,
     )
 
     ax.set_xlabel("Layer")
@@ -186,13 +207,24 @@ def fig_pipeline():
 
     for (x, y, label, w, h), shade in zip(steps, shades):
         box = mpatches.FancyBboxPatch(
-            (x, y), w, h,
+            (x, y),
+            w,
+            h,
             boxstyle="round,pad=0.12",
-            facecolor=shade, edgecolor=DARK, linewidth=0.8,
+            facecolor=shade,
+            edgecolor=DARK,
+            linewidth=0.8,
         )
         ax.add_patch(box)
-        ax.text(x + w / 2, y + h / 2, label, ha="center", va="center",
-                fontsize=7.5, color=BLACK)
+        ax.text(
+            x + w / 2,
+            y + h / 2,
+            label,
+            ha="center",
+            va="center",
+            fontsize=7.5,
+            color=BLACK,
+        )
 
     arrow_kw = dict(arrowstyle="-|>", color=DARK, lw=0.9)
 
@@ -225,9 +257,17 @@ def fig_layer_range():
 
     fig, ax = plt.subplots(figsize=(6.5, 3.5))
     ax.errorbar(
-        layer_ints, means, yerr=[lower, upper],
-        fmt="o", markersize=3.5, color=BLACK, ecolor=LIGHT,
-        capsize=3, capthick=0.6, linewidth=0.8, markeredgewidth=0,
+        layer_ints,
+        means,
+        yerr=[lower, upper],
+        fmt="o",
+        markersize=3.5,
+        color=BLACK,
+        ecolor=LIGHT,
+        capsize=3,
+        capthick=0.6,
+        linewidth=0.8,
+        markeredgewidth=0,
     )
     ax.plot(layer_ints, means, color=DARK, linewidth=0.8, alpha=0.6)
     ax.fill_between(layer_ints, mins, maxs, alpha=0.08, color=BLACK)
