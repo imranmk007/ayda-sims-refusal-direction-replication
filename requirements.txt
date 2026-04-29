@@ -7,3 +7,6 @@ datasets
 Pillow
 matplotlib
 google-generativeai
+jinja2>=3.1.0
+requests
+pandas
