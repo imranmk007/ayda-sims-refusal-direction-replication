@@ -3,11 +3,11 @@
 ## Running on GCP VM
 
 ```bash
-tmux new -s experiment
+tmux new -s experiment - optional but useful for GCP at least
 sudo apt install pip
 pip install -r requirements.txt
 python3 -c "from huggingface_hub import login; login()"
-<<INSERT HF TOKEN>>
+Insert HF Token: In slack, titled "Imran HF Token: xx"
 python3 <<filename.py>>
 ```
 
