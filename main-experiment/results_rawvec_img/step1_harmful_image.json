@@ -1,0 +1,9 @@
+{
+  "n": 400,
+  "n_refused": 52,
+  "n_complied": 344,
+  "n_degenerate": 4,
+  "refusal_rate": 0.13,
+  "compliance_rate": 0.86,
+  "degeneracy_rate": 0.01
+}

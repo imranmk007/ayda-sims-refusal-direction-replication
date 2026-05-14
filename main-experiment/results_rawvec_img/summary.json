@@ -1,0 +1,114 @@
+{
+  "model": "google/gemma-3-4b-it",
+  "config": {
+    "n_harmful_image_train": 400,
+    "n_harmful_image_test": 100,
+    "n_safe_image": 100,
+    "n_harmful_text": 500,
+    "n_safe_text": 500,
+    "refusal_layer_start": 12,
+    "refusal_layer_end": 23
+  },
+  "step1": {
+    "n": 400,
+    "n_refused": 52,
+    "n_complied": 344,
+    "n_degenerate": 4,
+    "refusal_rate": 0.13,
+    "compliance_rate": 0.86,
+    "degeneracy_rate": 0.01
+  },
+  "step3": {
+    "layer_norms": {
+      "0": 0.0,
+      "1": 1.0,
+      "2": 1.0,
+      "3": 1.0,
+      "4": 1.0,
+      "5": 1.0,
+      "6": 1.0,
+      "7": 1.0,
+      "8": 1.0,
+      "9": 1.0,
+      "10": 1.0,
+      "11": 1.0,
+      "12": 1.0,
+      "13": 1.0,
+      "14": 1.0,
+      "15": 1.0,
+      "16": 1.0,
+      "17": 1.0,
+      "18": 1.0,
+      "19": 1.0,
+      "20": 1.0,
+      "21": 1.0,
+      "22": 1.0,
+      "23": 1.0,
+      "24": 1.0,
+      "25": 1.0,
+      "26": 1.0,
+      "27": 1.0,
+      "28": 1.0,
+      "29": 1.0,
+      "30": 1.0,
+      "31": 1.0,
+      "32": 1.0,
+      "33": 1.0
+    }
+  },
+  "step4": {
+    "n": 100,
+    "refusal_rate": 0.0,
+    "compliance_rate": 0.47,
+    "degeneracy_rate": 0.53,
+    "baseline_refusal_rate": 0.13,
+    "delta": -0.13
+  },
+  "step5": {
+    "n": 100,
+    "refusal_rate": 0.96,
+    "compliance_rate": 0.04,
+    "degeneracy_rate": 0.0
+  },
+  "step6": {
+    "n": 100,
+    "refusal_rate": 0.37,
+    "compliance_rate": 0.33,
+    "degeneracy_rate": 0.29,
+    "baseline_refusal_rate": 0.96,
+    "delta": -0.59
+  },
+  "step7": {
+    "n": 500,
+    "refusal_rate": 0.272,
+    "compliance_rate": 0.708,
+    "degeneracy_rate": 0.02
+  },
+  "step8": {
+    "n": 500,
+    "refusal_rate": 0.004,
+    "compliance_rate": 0.03,
+    "degeneracy_rate": 0.966
+  },
+  "step9": {
+    "n": 500,
+    "refusal_rate": 0.002,
+    "compliance_rate": 0.028,
+    "degeneracy_rate": 0.176,
+    "mean_kl": 16.78947605895996,
+    "per_layer_mean_dot": {
+      "12": 14121.472,
+      "13": 20820.224,
+      "14": 21070.592,
+      "15": 23951.616,
+      "16": 23559.68,
+      "17": 24305.408,
+      "18": 30119.936,
+      "19": 31972.096,
+      "20": 33658.112,
+      "21": 33152.0,
+      "22": 31454.72,
+      "23": 27467.264
+    }
+  }
+}
